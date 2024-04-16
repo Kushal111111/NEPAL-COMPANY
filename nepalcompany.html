@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+    <meta name="Ashish & Anmol">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color:blueviolet;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            text-shadow: 2px 2px 4px yellowgreen;
+        }
+
+        .container {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color:whitesmoke;
+            border-radius: 5px;
+            box-shadow: 0 0 10px yellowgreen;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group input {
+            display: block;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid burlywood;
+            border-radius: 5px;
+        }
+
+        .input-group button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: green;
+            color:whitesmoke;
+            transition: background-color 0.3s;
+        }
+
+        .input-group button:hover {
+            background-color: greenyellow;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color:wheat;
+        }
+
+        tr:hover {
+            background-color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+    <h1>NEPAL COMPANY</h1>
+    <div class="container">
+        <form id="memberForm">
+            <div class="input-group">
+                <input type="text" id="name" placeholder="Member Name" required="">
+            </div>
+            <div class="input-group">
+                <input type="number" id="age" placeholder="Age" required="">
+            </div>
+            <div class="input-group">
+                <input type="address" id="address" placeholder="Address" required="">
+            </div>
+            <div class="input-group">
+                <input type="Mobile" id="Mobile" placeholder="Mobile" required="">
+            </div>
+            <div class="input-group">
+                <button type="submit">Add member</button>
+            </div>
+        </form>
+        <div class="input-group">
+            <input type="text" id="search" placeholder="Search by Name" onkeyup="searchmembers()">
+        </div>
+        <table id="memberTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>address</th>
+                    <th>Mobile</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="memberList"><tr><td>Ashish</td><td>17</td><td>tillotama</td><td>9843445342</td><td><button class="delete">Delete</button> <button class="edit">Edit</button></td></tr><tr><td>Anmol</td><td>18</td><td>butwal</td><td>9876543210</td><td><button class="delete">Delete</button> <button class="edit">Edit</button></td></tr></tbody>
+        </table>
+    </div>
+    <script>
+        function addmember() {
+            const name = document.getElementById('name').value.trim();
+            const age = parseInt(document.getElementById('age').value.trim());
+            const address = document.getElementById('address').value.trim();
+            const Mobile = document.getElementById('Mobile').value.trim();
+            if (name && age && address && Mobile) {
+                const table = document.getElementById('memberTable');
+                const tbody = document.getElementById('memberList');
+                const newRow = tbody.insertRow();
+                newRow.innerHTML = '<td>' + name + '</td><td>' + age + '</td><td>' + address + '</td><td>' + Mobile + '</td><td><button class="delete">Delete</button> <button class="edit">Edit</button></td>';
+                document.getElementById('name').value = '';
+                document.getElementById('age').value = '';
+                document.getElementById('address').value = '';
+                document.getElementById('Mobile').value = '';
+            }
+        }
+
+        document.getElementById('memberForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            addmember();
+        });
+
+        document.getElementById('memberList').addEventListener('click', function(event) {
+            if (event.target.classList.contains('delete')) {
+                event.target.parentElement.parentElement.remove();
+            } else if (event.target.classList.contains('edit')) {
+                const row = event.target.parentElement.parentElement;
+                document.getElementById('name').value = row.cells[0].innerText;
+                document.getElementById('age').value = row.cells[1].innerText;
+                document.getElementById('address').value = row.cells[2].innerText;
+                document.getElementById('Mobile').value = row.cells[3].innerText;
+                row.remove();
+            }
+        });
+
+        function searchmembers() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const rows = document.getElementById('memberTable').querySelectorAll('tbody tr');
+            rows.forEach(function(row) {
+                const name = row.cells[0].innerText.toLowerCase();
+                if (name.includes(input)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body></html>
